@@ -2,12 +2,13 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Home from './pages/Home'
+import Home from './pages/Home.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-// import Sad from './pages/Sad'
-//import Happy from './pages/Happy'
-//import Angry from './pages/Angry'
-//import Tired from './pages/Tired'
+import Sad from './pages/Sad.tsx'
+import Happy from './pages/Happy.tsx'
+import Angry from './pages/Angry.tsx'
+import Tired from './pages/Tired.tsx'
+import Stressed from './pages/Stressed.tsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +17,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        
+        <Route path="/happy" element={<Happy/>} />
+        <Route path="/angry" element={<Angry/>}/>
+        <Route path="/stressed" element={<Stressed/>}/>
+        <Route path="/tired" element={<Tired/>}/>
+        <Route path="/sad" element={<Sad/>} />
+
+
       </Routes>
     
     

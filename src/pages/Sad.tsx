@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router-dom'
 import '../styles/home.css'
 
-export default function Home(){
+export default function Sad(){
     const navigate= useNavigate()
 
 
@@ -10,7 +10,7 @@ export default function Home(){
             <div className="content">
 
                 <h1 className="welcome">
-                    Welcome back to Flow💧State! <br/> How are you feeling today? 😊
+                    Welcome back! <br/> How are you feeling today?
                 </h1>
 
                 <div className="options">
@@ -24,10 +24,6 @@ export default function Home(){
 
 
             </div>
-
-            <button className="progressBtn" onClick={() => navigate('/progress')}>
-                ♾️View<br/>Progress
-            </button>
         </div>
     )
 }
