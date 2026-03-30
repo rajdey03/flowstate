@@ -6,6 +6,8 @@ export default function Home(){
 
 
     return(
+        /* Tired and Happy will lead to Normal meditations at /normal */
+        
         <div className="container">
             <div className="content">
 
@@ -15,10 +17,11 @@ export default function Home(){
 
                 <div className="options">
 
+
                     <button className="btn" onClick={() => navigate('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => navigate('/happy')}> Happy </button>
+                    <button className="btn" onClick={() => navigate('/normal')}> Happy </button>
                     <button className="btn" onClick={() => navigate('/stressed')}> Stressed </button>
-                    <button className="btn" onClick={() => navigate('/tired')}> Tired </button>
+                    <button className="btn" onClick={() => navigate('/normal')}> Tired </button>
 
                 </div>
 
