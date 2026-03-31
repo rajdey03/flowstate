@@ -1,4 +1,5 @@
 import MeditationScreen from './MeditationScreen';
+import midnightRainAudio from '../assets/midnight-rain.mp3';
 
 export default function Sad() {
     return (
@@ -7,7 +8,7 @@ export default function Sad() {
             promptText="Watch the ocean. Find your calm."
             activeVisual="🌊"
             doneVisual="💧"
-            audioFile="/assets/gentle_rain.mp3" // The last 3 variables are just placeholders until i add the images and audios we want
+            audioFile={midnightRainAudio} // The last 3 variables are just placeholders until i add the images and audios we want
         />
     );
 }

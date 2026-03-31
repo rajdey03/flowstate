@@ -68,6 +68,24 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         }
     }, [isActive]);
 
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const handleTimeUpdate = () => {
+            if (audio.duration && audio.currentTime >= audio.duration - 0.3) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log(e)); 
+            }
+        };
+
+        audio.addEventListener('timeupdate', handleTimeUpdate);
+        
+        return () => {
+            audio.removeEventListener('timeupdate', handleTimeUpdate);
+        };
+    }, []);
+
     const handleStartMeditation = (capsule: Capsule) => {
         setSelectedCapsule(capsule);
         setTimeLeft(capsule.duration_minutes * 60);
