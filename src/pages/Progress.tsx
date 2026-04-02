@@ -25,6 +25,12 @@ export default function Progress() {
         sad: []
     });
 
+    const handleNavigate = (path: string) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 400);
+    };
+
     useEffect(() => {
         const fetchChecklists = async () => {
             const { data: allCapsules, error: capsError } = await supabase
@@ -77,10 +83,14 @@ export default function Progress() {
             <ul style={{ listStyleType: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 {data.map((item) => (
                     <li key={item.capsule.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem', color: '#1a1a1a' }}>
+                        {/* Show a green checkmark if completed, or an empty circle if not */}
                         <span>{item.isCompleted ? '✅' : '⭕'}</span>
-                        <span style={{ textDecoration: item.isCompleted ? 'line-through' : 'none', opacity: item.isCompleted ? 0.6 : 1 }}>
+                        
+                        {/* CHANGED: Removed the textDecoration line-through here! */}
+                        <span style={{ opacity: item.isCompleted ? 0.6 : 1 }}>
                             {item.capsule.name}
                         </span>
+                        
                         <span style={{ marginLeft: 'auto', fontSize: '0.9rem', opacity: 0.6 }}>
                             {item.capsule.duration_minutes}m
                         </span>
@@ -92,12 +102,9 @@ export default function Progress() {
     );
 
     return (
-        <div style={{
+        <div className="container" style={{
             minHeight: '100vh',
             width: '100%',
-            backgroundImage: `url('/map-bg.jpg')`, 
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -112,7 +119,6 @@ export default function Progress() {
             {loading ? (
                 <p style={{ background: 'rgba(255,255,255,0.8)', padding: '1rem', borderRadius: '10px', color: '#1a1a1a' }}>Loading your progress...</p>
             ) : (
-                // A 2x2 Grid to roughly match your map's layout
                 <div style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -131,7 +137,7 @@ export default function Progress() {
             <button 
                 className="btn" 
                 style={{ marginTop: '3rem', background: 'rgba(255,255,255,0.9)' }} 
-                onClick={() => navigate('/')}
+                onClick={() => handleNavigate('/')}
             >
                 Back to Home
             </button>

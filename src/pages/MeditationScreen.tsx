@@ -29,6 +29,12 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
 
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    const handleNavigate = (path: string) => {
+        setTimeout(() => {
+            navigate(path);
+        }, 400);
+    };
+
     useEffect(() => {
         const fetchCapsules = async () => {
             const { data, error } = await supabase
@@ -104,9 +110,13 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         }
 
         if (selectedCapsule) {
-            await supabase.from('user_progress').insert([
+            const { error } = await supabase.from('user_progress').insert([
                 { anonymous_user_id: userId, capsule_id: selectedCapsule.id }
             ]);
+            
+            if (error) {
+                console.error("Database Save Error:", error);
+            }
         }
     };
 
@@ -116,74 +126,122 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         return `${m}:${s}`;
     };
 
+    const getBreathingText = () => {
+        if (!selectedCapsule) return promptText;
+        
+        const totalSeconds = selectedCapsule.duration_minutes * 60;
+        
+        if (!isActive && timeLeft === totalSeconds) return promptText; 
+        if (!isActive && timeLeft < totalSeconds && timeLeft > 0) return "Paused"; 
+        
+        const elapsed = totalSeconds - timeLeft;
+        const cycleTime = Math.floor(elapsed % 60); 
+        
+        if (cycleTime >= 50) {
+            return "Pause... Hold your breath.";
+        } else {
+            const isBreatheIn = Math.floor(cycleTime / 5) % 2 === 0;
+            return isBreatheIn ? "Breathe in..." : "Breathe out...";
+        }
+    };
+
     return (
         <div className="container">
-            <audio ref={audioRef} src={audioFile} loop />
+            <audio ref={audioRef} src={audioFile} />
 
             <div className="content" style={{ alignItems: 'center', textAlign: 'center' }}>
                 
                 {isDone ? (
                     <>
-                        <h1 className="welcome">Done!</h1>
-                        <div style={{ fontSize: '8rem', margin: '1rem 0', animation: 'logo-spin 4s ease-in-out' }}>
+                        <h1 className="welcome" style={{ marginBottom: '1rem' }}>
+                            Session Complete
+                        </h1>
+                        <p style={{ color: '#1a1a1a', fontSize: '1.5rem', fontWeight: 500 }}>
+                            Great job taking time for yourself.
+                        </p>
+                        
+                        <div style={{ fontSize: '8rem', margin: '2rem 0', animation: 'logo-spin 4s ease-in-out' }}>
                             {doneVisual}
                         </div>
+                        
                         <div className="options" style={{ justifyContent: 'center', marginTop: '2rem' }}>
-                            <button className="btn" onClick={() => navigate('/')}>Home Page</button>
-                            <button className="btn" onClick={() => navigate('/progress')}>View Progress</button>
+                            <button className="btn" onClick={() => handleNavigate('/')}>
+                                Back to Home
+                            </button>
+                            <button className="btn" onClick={() => handleNavigate('/progress')}>
+                                Check Progress
+                            </button>
                         </div>
                     </>
                 ) 
                 
                 : selectedCapsule ? (
                     <>
-                        <h1 className="welcome">{selectedCapsule.name}</h1>
-                        <p style={{ color: '#1a1a1a', fontSize: '1.2rem', marginBottom: '2rem' }}>{promptText}</p>
+                        <h1 className="welcome" style={{ marginBottom: '2rem' }}>{selectedCapsule.name}</h1>
                         
-                        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '2rem 0' }}>
+                        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '4rem 0' }}>
                             
-                            <svg height="300" width="300" style={{ transform: 'rotate(-90deg)' }}>
+                            <svg height="650" width="650" style={{ transform: 'rotate(-90deg)' }}>
                                 <circle
                                     stroke="rgba(0, 0, 0, 0.1)"
                                     fill="transparent"
-                                    strokeWidth="8"
-                                    r="130"
-                                    cx="150"
-                                    cy="150"
+                                    strokeWidth="16"
+                                    r="300"
+                                    cx="325"
+                                    cy="325"
                                 />
                                 <circle
                                     stroke="#ffffff"
                                     fill="transparent"
-                                    strokeWidth="8"
+                                    strokeWidth="16"
                                     strokeLinecap="round"
-                                    strokeDasharray={2 * Math.PI * 130}
+                                    strokeDasharray={2 * Math.PI * 300}
                                     strokeDashoffset={
-                                        (2 * Math.PI * 130) - 
-                                        (timeLeft / (selectedCapsule.duration_minutes * 60)) * (2 * Math.PI * 130)
+                                        (2 * Math.PI * 300) - 
+                                        (timeLeft / (selectedCapsule.duration_minutes * 60)) * (2 * Math.PI * 300)
                                     }
-                                    r="130"
-                                    cx="150"
-                                    cy="150"
+                                    r="300"
+                                    cx="325"
+                                    cy="325"
                                     style={{ transition: 'stroke-dashoffset 1s linear' }}
                                 />
                             </svg>
                             
-                            <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '450px' }}>
+                                
                                 <div style={{ 
-                                    fontSize: '4rem', 
-                                    marginBottom: '10px', 
+                                    fontSize: '5rem', 
+                                    marginBottom: '15px', 
                                     filter: isActive ? 'drop-shadow(0 0 1em rgba(255,255,255,0.8))' : 'none', 
                                     transition: 'filter 0.5s ease' 
                                 }}>
                                     {activeVisual}
                                 </div>
-                                <h2 style={{ fontSize: '3rem', color: '#1a1a1a', margin: '0', fontFamily: 'monospace', fontWeight: 600 }}>
-                                    {formatTime(timeLeft)}
+                                
+                                <h2 style={{ 
+                                    fontSize: '3.5rem', 
+                                    color: '#1a1a1a', 
+                                    margin: '0', 
+                                    fontWeight: 500, 
+                                    transition: 'opacity 0.5s ease',
+                                    textAlign: 'center'
+                                }}>
+                                    {getBreathingText()}
                                 </h2>
+                                
+                                <h3 style={{ 
+                                    fontSize: '3rem', 
+                                    color: '#1a1a1a', 
+                                    margin: '15px 0 0 0', 
+                                    fontFamily: 'monospace', 
+                                    opacity: 0.7 
+                                }}>
+                                    {formatTime(timeLeft)}
+                                </h3>
                             </div>
                         </div>
 
-                        <div className="options" style={{ justifyContent: 'center', marginTop: '2rem' }}>
+                        <div className="options" style={{ justifyContent: 'center', marginTop: '3rem' }}>
                             <button className="btn" onClick={() => setIsActive(!isActive)}>
                                 {isActive ? '⏸ Pause' : 'Start'}
                             </button>
@@ -219,7 +277,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                                 </button>
                             ))}
                         </div>
-                        <button className="btn" style={{ marginTop: '2rem' }} onClick={() => navigate('/')}>Back</button>
+                        <button className="btn" style={{ marginTop: '2rem' }} onClick={() => handleNavigate('/')}>Back</button>
                     </>
                 )}
             </div>
