@@ -1,30 +1,16 @@
-import {useNavigate} from 'react-router-dom'
-import '../styles/home.css'
+import MeditationScreen from './MeditationScreen';
+import midnightRainAudio from '../assets/midnight-rain.mp3';
+import flowstateLogo from '../assets/FlowState.svg';
+import angryIcon from '../assets/angry.svg';
 
-export default function Angry(){
-    const navigate= useNavigate()
-
-
-    return(
-        <div className="container">
-            <div className="content">
-
-                <h1 className="welcome">
-                    Welcome back! <br/> How are you feeling today?
-                </h1>
-
-                <div className="options">
-
-                    <button className="btn" onClick={() => navigate('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => navigate('/happy')}> Happy </button>
-                    <button className="btn" onClick={() => navigate('/stressed')}> Stressed </button>
-                    <button className="btn" onClick={() => navigate('/tired')}> Tired </button>
-
-                </div>
-
-
-            </div>
-        </div>
-    )
+export default function Angry() {
+    return (
+        <MeditationScreen 
+            moodCategory="angry"
+            promptText="Release the tension, regain control"
+            activeVisual={<img src={angryIcon} alt="angry icon" style={{ width: '120px', height: '120px' }} />}
+            doneVisual={<img src={flowstateLogo} alt="flowstate logo" style={{ width: '120px', height: '120px' }} />}
+            audioFile={midnightRainAudio}
+        />
+    );
 }
-
