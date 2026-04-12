@@ -1,6 +1,15 @@
 import {useNavigate} from 'react-router-dom'
 import '../styles/home.css'
 
+/*capsules from the db format */
+type Capsule = {
+  id: string
+  name: string
+  emotion_category: string
+  duration_minutes: number
+}
+
+
 export default function Normal(){
     const navigate= useNavigate()
 
