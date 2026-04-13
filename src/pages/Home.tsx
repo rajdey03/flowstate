@@ -21,6 +21,8 @@ export default function Home(){
                     <button className="btn" onClick={() => navigate('/sad')}> Sad </button>
                     <button className="btn" onClick={() => navigate('/normal')}> Happy </button>
                     <button className="btn" onClick={() => navigate('/stressed')}> Stressed </button>
+                    <button className="btn" onClick={() => navigate('/angry')}> Angry </button>
+
                     <button className="btn" onClick={() => navigate('/normal')}> Tired </button>
 
                 </div>
