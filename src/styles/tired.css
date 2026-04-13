@@ -1,0 +1,96 @@
+.tiredContainer {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #153db5 0%, #5368b4 50%, #0042c5 100%);
+  gap: 2.5rem;
+}
+
+.tiredHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 650px;
+}
+ 
+.dropletImage {
+  width: 100px;
+  height: 90px;
+  object-fit: cover;
+}
+ 
+.tiredTitle {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* meditation capsule formating-- listed*/
+.capsuleList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 650px;
+}
+ 
+.capsule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+ 
+.capsuleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+ 
+.capsuleName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+ 
+.capsuleDuration {
+  font-size: 0.8rem;
+  color: #555;
+}
+ 
+.playBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1a1a1a;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.playBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+ 
+.statusText {
+  color: #1a1a1a;
+  font-size: 1rem;
+  text-align: center;
+}
