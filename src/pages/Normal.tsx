@@ -1,8 +1,8 @@
 import {useNavigate} from 'react-router-dom'
-import '../styles/home.css'
+import '../styles/tired.css'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
-import sadImage from '../assets/sad.png'
+import dropletImage from '../assets/droplet.png'
 
 /*capsules from the db format */
 type Capsule = {
@@ -41,9 +41,9 @@ export default function Normal(){
     return(
         <div className="tiredContainer">
             <div className="tiredHeader">
-                <img src={sadImage} alt="normal" className="dropletImage" />
+                <img src={dropletImage} alt="normal" className="dropletImage" />
                 <h1 className="tiredTitle">
-                    Sad </h1>
+                    You deserve some rest </h1>
             </div> 
               
             <div className="capsuleList">

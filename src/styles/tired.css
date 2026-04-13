@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 3rem 2rem;
-  background: linear-gradient(135deg, #153db5 0%, #5368b4 50%, #0042c5 100%);
+  background: linear-gradient(135deg, #51bfbb 0%, #5368b4 50%, #fdef9d 100%);
   gap: 2.5rem;
 }
 
@@ -18,8 +18,8 @@
 }
  
 .dropletImage {
-  width: 100px;
-  height: 90px;
+  width: 90px;
+  height: 100px;
   object-fit: cover;
 }
  
