@@ -18,7 +18,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/normal" element={< Normal/>} />
-        <Route path="/angry" element={<Angry/>}/>
         <Route path="/stressed" element={<Stressed/>}/>
         <Route path="/sad" element={<Sad/>} />
         <Route path="/angry" element={<Angry/>} />
