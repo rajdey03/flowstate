@@ -40,20 +40,14 @@ export default function Home(){
                 <div className="options">
 
 
-               
-
-                    <button className="btn" onClick={() => navigate('/stressed')}> Stressed </button>
-                    <button className="btn" onClick={() => navigate('/normal')}> Tired </button>
                     <button className="btn" onClick={() => handleMoodSelect('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/angry')}> Angry </button>
                     <button className="btn" onClick={() => handleMoodSelect('/happy')}> Happy </button>
-
-                </div>
-
-                <div className="options">
                     <button className="btn" onClick={() => handleMoodSelect('/stressed')}> Stressed </button>
+                    <button className="btn" onClick={() => handleMoodSelect('/angry')}> Angry </button>
                     <button className="btn" onClick={() => handleMoodSelect('/tired')}> Tired </button>
+
                 </div>
+
             </div>
 
             <button 
