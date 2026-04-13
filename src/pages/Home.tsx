@@ -13,6 +13,8 @@ export default function Home(){
 
 
     return(
+        /* Tired and Happy will lead to Normal meditations at /normal */
+        
         <div className="container">
             <div className="content" style={{ 
                 display: 'flex', 
@@ -37,9 +39,11 @@ export default function Home(){
 
                 <div className="options">
 
+
                     <button className="btn" onClick={() => handleMoodSelect('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/angry')}> Angry </button>
                     <button className="btn" onClick={() => handleMoodSelect('/happy')}> Happy </button>
+                    <button className="btn" onClick={() => handleMoodSelect('/stressed')}> Stressed </button>
+                    <button className="btn" onClick={() => handleMoodSelect('/normal')}> Tired </button>
 
                 </div>
 

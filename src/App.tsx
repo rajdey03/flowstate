@@ -5,9 +5,8 @@ import './App.css'
 import Home from './pages/Home.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Sad from './pages/Sad.tsx'
-import Happy from './pages/Happy.tsx'
+import Normal from './pages/Normal.tsx'
 import Angry from './pages/Angry.tsx'
-import Tired from './pages/Tired.tsx'
 import Stressed from './pages/Stressed.tsx'
 import Progress from './pages/Progress.tsx'
 
@@ -18,10 +17,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/happy" element={<Happy/>} />
+        <Route path="/normal" element={< Normal/>} />
         <Route path="/angry" element={<Angry/>}/>
         <Route path="/stressed" element={<Stressed/>}/>
-        <Route path="/tired" element={<Tired/>}/>
         <Route path="/sad" element={<Sad/>} />
         <Route path="/progress" element={<Progress />} />
 
