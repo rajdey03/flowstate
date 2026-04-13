@@ -21,6 +21,7 @@ function App() {
         <Route path="/angry" element={<Angry/>}/>
         <Route path="/stressed" element={<Stressed/>}/>
         <Route path="/sad" element={<Sad/>} />
+        <Route path="/angry" element={<Angry/>} />
         <Route path="/progress" element={<Progress />} />
 
 
