@@ -8,7 +8,7 @@ import Sad from './pages/Sad.tsx'
 import Normal from './pages/Normal.tsx'
 import Angry from './pages/Angry.tsx'
 import Stressed from './pages/Stressed.tsx'
-
+import Progress from './pages/Progress.tsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,6 +22,7 @@ function App() {
         <Route path="/stressed" element={<Stressed/>}/>
         <Route path="/sad" element={<Sad/>} />
         <Route path="/angry" element={<Angry/>} />
+        <Route path="/progress" element={<Progress />} />
 
 
       </Routes>
