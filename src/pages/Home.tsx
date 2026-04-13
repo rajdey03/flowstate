@@ -63,6 +63,7 @@ export default function Home(){
                 onClick={() => handleMoodSelect('/progress')}
             >
                 ♾️View<br/>Progress Tracker
+
             </button>
         </div>
     )
