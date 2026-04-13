@@ -41,12 +41,14 @@ export default function Home(){
 
 
                     <button className="btn" onClick={() => handleMoodSelect('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/happy')}> Happy </button>
+                    <button className="btn" onClick={() => handleMoodSelect('/normal')}> Happy </button>
                     <button className="btn" onClick={() => handleMoodSelect('/stressed')}> Stressed </button>
                     <button className="btn" onClick={() => handleMoodSelect('/angry')}> Angry </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/tired')}> Tired </button>
+                    <button className="btn" onClick={() => handleMoodSelect('/normal')}> Tired </button>
 
                 </div>
+
+            
 
             </div>
 
@@ -61,6 +63,7 @@ export default function Home(){
                 onClick={() => handleMoodSelect('/progress')}
             >
                 ♾️View<br/>Progress Tracker
+
             </button>
         </div>
     )
