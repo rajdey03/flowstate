@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import sadImage from '../assets/sad.png'
 
+
+//animation credits: https://codepen.io/Spate/pen/gOGJMgG
 /*capsules from the db format */
 type Capsule = {
   id: string
@@ -12,7 +14,15 @@ type Capsule = {
   duration_minutes: number
 }
 
-
+function Wave() {
+  return (
+    <div className="waveContainer">
+      <div className="wave wave1" />
+      <div className="wave wave2" />
+      <div className="wave wave3" />
+    </div>
+  )
+}
 
 
 export default function Sad(){
@@ -42,6 +52,7 @@ export default function Sad(){
 
     return(
         <div className="sadContainer">
+          <Wave />
             <div className="sadHeader">
                 <img src={sadImage} alt="sad" className="sadImage" />
                 <h1 className="sadTitle">

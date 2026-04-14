@@ -1,3 +1,6 @@
+
+/*CodePen animations*/
+
 .sadContainer {
   min-height: 100vh;
   width: 100%;
@@ -93,4 +96,65 @@
   color: #1a1a1a;
   font-size: 1rem;
   text-align: center;
+}
+
+.waveContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 200px;
+  border-radius: 43%;
+  animation: rise linear infinite;
+  opacity: 0.15;
+  background: #a8d8ff;
+}
+
+.wave1 {
+  animation: rise 8s ease-in-out infinite, sway 6s ease-in-out infinite;
+  animation-delay: 0s;
+  bottom: -20px;
+}
+
+.wave2 {
+  animation: rise 8s ease-in-out infinite, sway 8s ease-in-out infinite reverse;
+  animation-delay: -2s;
+  opacity: 0.1;
+  bottom: -30px;
+}
+
+.wave3 {
+  animation: rise 8s ease-in-out infinite, sway 10s ease-in-out infinite;
+  animation-delay: -4s;
+  opacity: 0.07;
+  bottom: -40px;
+}
+
+@keyframes rise {
+  0% {
+    bottom: -200px;
+  }
+  100% {
+    bottom: 110vh;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
 }
