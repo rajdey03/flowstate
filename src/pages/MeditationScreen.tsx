@@ -25,7 +25,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
     const navigate = useNavigate();
     
     //REMOVE const [capsules, setCapsules] = useState<Capsule[]>([]);
-    const [selectedCapsule, setSelectedCapsule] = useState<Capsule | null>(null);
+    const [selectedCapsule, setSelectedCapsule] = useState<{ id: string; name: string; duration_minutes: number } | null>(null);
     
     const [timeLeft, setTimeLeft] = useState(0);
     const [isActive, setIsActive] = useState(false);
