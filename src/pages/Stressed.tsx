@@ -72,7 +72,7 @@ export default function Stressed(){
                     </div>
             <button
               className="playBtn"
-              onClick={() => navigate('/stressed/meditate')}
+              onClick={() => navigate('/stressed/meditate', { state: { capsule } })}
               aria-label={`Play ${capsule.name}`}
             >
               ▶

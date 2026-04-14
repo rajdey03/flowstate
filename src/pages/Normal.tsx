@@ -60,7 +60,7 @@ export default function Normal(){
                     </div>
             <button
               className="playBtn"
-              onClick={() => navigate('/normal/meditate')}
+              onClick={() => navigate('/normal/meditate', { state: { capsule } })}
               aria-label={`Play ${capsule.name}`}
             >
               ▶

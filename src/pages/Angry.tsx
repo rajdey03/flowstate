@@ -91,7 +91,7 @@ export default function Angry(){
                     </div>
             <button
               className="playBtn"
-              onClick={() => navigate('/angry/meditate')}
+              onClick={() => navigate('/angry/meditate', { state: { capsule } })}
               aria-label={`Play ${capsule.name}`}
             >
               ▶
