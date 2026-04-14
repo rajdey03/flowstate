@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../styles/home.css';
 
+/*
+REMOVE THIS-- capsule views already integrated
 interface Capsule {
     id: string;
     name: string;
     duration_minutes: number;
 }
+    */
 
 interface FlowProps {
     moodCategory: 'sad' | 'stressed' | 'angry' | 'tired';
@@ -18,9 +21,10 @@ interface FlowProps {
 }
 
 export default function MeditationScreen({ moodCategory, promptText, activeVisual, doneVisual, audioFile }: FlowProps) {
+    const location = useLocation();
     const navigate = useNavigate();
     
-    const [capsules, setCapsules] = useState<Capsule[]>([]);
+    //REMOVE const [capsules, setCapsules] = useState<Capsule[]>([]);
     const [selectedCapsule, setSelectedCapsule] = useState<Capsule | null>(null);
     
     const [timeLeft, setTimeLeft] = useState(0);
@@ -29,12 +33,21 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
 
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    //don't show the capsules twice, show meditation for selected
+    useEffect(() => {
+            const passed = location.state?.capsule
+            if (passed){
+                setSelectedCapsule(passed)
+                setTimeLeft(passed.duration_minutes * 60)
+            }
+        }, [])
+
     const handleNavigate = (path: string) => {
         setTimeout(() => {
             navigate(path);
         }, 400);
     };
-
+    /* REMOVE THIS, capsules present in previous view
     useEffect(() => {
         const fetchCapsules = async () => {
             const { data, error } = await supabase
@@ -48,6 +61,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         };
         fetchCapsules();
     }, [moodCategory]);
+    */
 
     useEffect(() => {
         let interval: ReturnType<typeof setInterval>;
@@ -92,12 +106,14 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         };
     }, []);
 
+    /* REMOVE
     const handleStartMeditation = (capsule: Capsule) => {
         setSelectedCapsule(capsule);
         setTimeLeft(capsule.duration_minutes * 60);
         setIsDone(false);
         setIsActive(false);
     };
+    */
 
     const handleComplete = async () => {
         setIsActive(false);
@@ -173,7 +189,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                             </button>
                         </div>
                     </>
-                ) 
+                    ) 
                 
                 : selectedCapsule ? (
                     <>
@@ -255,31 +271,10 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                     </>
                 ) 
                 
-                : (
-                    <>
-                        <h1 className="welcome" style={{ textTransform: 'capitalize' }}>{moodCategory}?</h1>
-                        <p style={{ color: '#1a1a1a', fontSize: '1.2rem', marginBottom: '1rem' }}>
-                            Choose an exercise to help you find your flow:
-                        </p>
-                        
-                        <div className="options" style={{ flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-                            {capsules.length === 0 ? <p>Loading capsules...</p> : null}
-                            
-                            {capsules.map((capsule) => (
-                                <button 
-                                    key={capsule.id} 
-                                    className="btn" 
-                                    style={{ width: '100%', maxWidth: '400px', justifyContent: 'space-between' }}
-                                    onClick={() => handleStartMeditation(capsule)}
-                                >
-                                    <span>{capsule.name}</span>
-                                    <span style={{ opacity: 0.7 }}>{capsule.duration_minutes} min</span>
-                                </button>
-                            ))}
-                        </div>
-                        <button className="btn" style={{ marginTop: '2rem' }} onClick={() => handleNavigate('/')}>Back</button>
-                    </>
-                )}
+                
+                : null //removed the part with capsule display- no need for duplicates
+               
+            }
             </div>
         </div>
     );
