@@ -14,12 +14,47 @@ type Capsule = {
   duration_minutes: number
 }
 
+//see animation credits
 function Wave() {
   return (
     <div className="waveContainer">
-      <div className="wave wave1" />
-      <div className="wave wave2" />
-      <div className="wave wave3" />
+      <div className = "waterRiser">
+      <svg className="waveSvg" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <path className="wavePath" d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" />
+      </svg>
+      <div className="waterBody" />
+      </div>
+    </div>
+  )
+}
+
+//from angry
+function Rain() {
+  const drops = Array.from({ length: 200 }, (_, i) => ({
+    id: i,
+    opacity: Math.random() * 0.6,
+    left: `${Math.random() * 120 - 10}vw`,
+    borderLeftWidth: `${Math.random() * 8}vmin`,
+    animationDuration: `${Math.random() * 3 + 2}s`,
+    animationDelay: `${Math.random() * -12}s`,
+    translateX: `${Math.random() * 10}%`,
+  }))
+
+  return (
+    <div className="rainContainer">
+      {drops.map(drop => (
+        <div
+          key={drop.id}
+          className="drop"
+          style={{
+            opacity: drop.opacity,
+            left: drop.left,
+            borderLeftWidth: drop.borderLeftWidth,
+            animationDuration: drop.animationDuration,
+            animationDelay: drop.animationDelay,
+          }}
+        />
+      ))}
     </div>
   )
 }
@@ -52,6 +87,7 @@ export default function Sad(){
 
     return(
         <div className="sadContainer">
+          <Rain />
           <Wave />
             <div className="sadHeader">
                 <img src={sadImage} alt="sad" className="sadImage" />
