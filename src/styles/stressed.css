@@ -1,3 +1,5 @@
+/*credit for the snow effect: https://codepen.io/siddharth-nalwaya/pen/wvXZqbq*/
+
 .stressedContainer {
   min-height: 100vh;
   width: 100%;
@@ -7,6 +9,7 @@
   padding: 3rem 2rem;
   background: linear-gradient(135deg, #309caa 0%, #a5efff 50%, #2e74ae 100%);
   gap: 2.5rem;
+  position: relative;
 }
 
 .stressedHeader {
@@ -38,6 +41,8 @@
   gap: 1rem;
   width: 100%;
   max-width: 650px;
+  position: relative; /* making sure that the snow overlap doesn't hinder the capsules */
+  z-index: 1;
 }
  
 .capsule {
