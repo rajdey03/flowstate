@@ -18,9 +18,10 @@ interface FlowProps {
     activeVisual: React.ReactNode; 
     doneVisual: React.ReactNode;
     audioFile: string;
+    returnPath: string; //bc tired is /normal
 }
 
-export default function MeditationScreen({ moodCategory, promptText, activeVisual, doneVisual, audioFile }: FlowProps) {
+export default function MeditationScreen({ moodCategory, promptText, activeVisual, doneVisual, audioFile, returnPath }: FlowProps) {
     const location = useLocation();
     const navigate = useNavigate();
     
@@ -264,6 +265,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                             <button className="btn" onClick={() => {
                                 setSelectedCapsule(null);
                                 setIsActive(false);
+                                handleNavigate(returnPath); 
                             }}>
                                 Cancel
                             </button>
