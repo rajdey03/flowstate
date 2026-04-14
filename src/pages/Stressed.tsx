@@ -12,6 +12,17 @@ type Capsule = {
   duration_minutes: number
 }
 
+//Snow effect taken from open source codepen: https://codepen.io/siddharth-nalwaya/pen/wvXZqbq
+function Snow() {
+  return (
+    <div className="snowContainer">
+      {Array.from({ length: 50 }, (_, i) => (
+        <div key={i} className="snow">❄</div>
+      ))}
+    </div>
+  )
+}
+
 export default function Stressed(){
     const navigate= useNavigate()
 
