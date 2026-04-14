@@ -3,6 +3,7 @@ import '../styles/tired.css'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import dropletImage from '../assets/droplet.png'
+import { useSlidePageTransition } from '../hooks/useSlidePageTransition'
 
 /*capsules from the db format */
 type Capsule = {
@@ -12,9 +13,20 @@ type Capsule = {
   duration_minutes: number
 }
 
+const happyCapsuleNames = [
+  'Morning Glow',
+  'Bright Mind Reset',
+  'Good Vibes Breathing',
+  'Sunny Focus Flow',
+  'Positive Energy Pause',
+]
+
 
 export default function Normal(){
     const navigate= useNavigate()
+    const { transitionClass, navigateWithTransition } = useSlidePageTransition({
+      home: 'page-shell--enter-from-right',
+    })
 
     const [capsules, setCapsules] = useState<Capsule[]>([])
   const [loading, setLoading] = useState(true)
@@ -39,11 +51,11 @@ export default function Normal(){
 
 
     return(
-        <div className="tiredContainer">
+        <div className={`tiredContainer page-shell ${transitionClass}`}>
             <div className="tiredHeader">
-                <img src={dropletImage} alt="normal" className="dropletImage" />
+                <img src={dropletImage} alt="happy" className="dropletImage" />
                 <h1 className="tiredTitle">
-                    You deserve some rest </h1>
+                    Keep the good energy flowing </h1>
             </div> 
               
             <div className="capsuleList">
@@ -51,26 +63,32 @@ export default function Normal(){
                 {!loading && capsules.length === 0 && (
                 <p className="statusText">No capsules found.</p>
                 )}
-                {capsules.map((capsule) => (
+                {capsules.map((capsule, index) => {
+                const displayName = happyCapsuleNames[index] ?? `Good Energy Session ${index + 1}`
+
+                return (
                 <div key={capsule.id} className="capsule">
                     <div className="capsuleInfo">
-                    <span className="capsuleName">{capsule.name}</span>
+                    <span className="capsuleName">{displayName}</span>
                     <span className="capsuleDuration">{capsule.duration_minutes} min</span>
                     
                     </div>
             <button
               className="playBtn"
               onClick={() => navigate('/normal/meditate', { state: { capsule } })}
-              aria-label={`Play ${capsule.name}`}
+              aria-label={`Play ${displayName}`}
             >
               ▶
             </button>
           </div>
-        ))}
+        )})}
         </div>
+
+        <button className="backHomeBtn" onClick={() => navigateWithTransition('/', { state: { from: 'mood-page' }, leaveTo: 'right' })}>
+          Back to Home
+        </button>
 
     </div>
 
     )
 }
-
