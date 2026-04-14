@@ -7,6 +7,7 @@
   padding: 3rem 2rem;
   background: linear-gradient(135deg, #35364b 0%, #273465 50%, #5c6c8b 100%);
   gap: 2.5rem;
+  position: relative;
 }
 
 .angryHeader {
@@ -15,6 +16,8 @@
   gap: 1.5rem;
   width: 100%;
   max-width: 650px;
+  position: relative;
+  z-index: 1;
 }
  
 .angryImage {
@@ -38,6 +41,8 @@
   gap: 1rem;
   width: 100%;
   max-width: 650px;
+  position: relative;
+  z-index: 1;
 }
  
 .capsule {
@@ -93,4 +98,32 @@
   color: #1a1a1a;
   font-size: 1rem;
   text-align: center;
+}
+
+.rainContainer {
+  position: fixed;
+  top: 0;
+  left: -10vw;
+  width: 120vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.drop {
+  border: 0.25vmin solid transparent;
+  border-bottom-color: #abc2e9;
+  position: absolute;
+  top: -5vmin;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: rotate(91deg) translateX(0);
+  }
+  to {
+    transform: rotate(91deg) translateX(calc(100vh + 5vmin));
+  }
 }

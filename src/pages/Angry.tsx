@@ -12,6 +12,36 @@ type Capsule = {
   emotion_category: string
   duration_minutes: number
 }
+//CodePen's rain animation is in JS, this is ts
+function Rain() {
+  const drops = Array.from({ length: 500 }, (_, i) => ({
+    id: i,
+    opacity: Math.random() * 0.9,
+    left: `${Math.random() * 120 - 10}vw`,
+    borderLeftWidth: `${Math.random() * 8}vmin`,
+    animationDuration: `${Math.random() * 2 + 0.5}s`,
+    animationDelay: `${Math.random() * -12}s`,
+    translateX: `${Math.random() * 10}%`,
+  }))
+
+  return (
+    <div className="rainContainer">
+      {drops.map(drop => (
+        <div
+          key={drop.id}
+          className="drop"
+          style={{
+            opacity: drop.opacity,
+            left: drop.left,
+            borderLeftWidth: drop.borderLeftWidth,
+            animationDuration: drop.animationDuration,
+            animationDelay: drop.animationDelay,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 
 export default function Angry(){
     const navigate= useNavigate()
@@ -40,6 +70,7 @@ export default function Angry(){
 
     return(
         <div className="angryContainer">
+            <Rain /> {/**adding thunder storm rain effects --> credit CodePen open source css effects */}
             <div className="angryHeader">
                 <img src={angryImage} alt="angry" className="angryImage" />
                 <h1 className="angryTitle">
