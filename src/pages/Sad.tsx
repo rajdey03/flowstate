@@ -109,7 +109,7 @@ export default function Sad(){
                     </div>
             <button
               className="playBtn"
-              onClick={() => navigate(`/capsule/${capsule.id}`)}
+              onClick={() => navigate('/sad/meditate')} 
               aria-label={`Play ${capsule.name}`}
             >
               ▶
