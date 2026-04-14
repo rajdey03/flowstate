@@ -33,7 +33,7 @@ function App() {
         <Route path="/sad/meditate" element={<Meditation moodCategory="sad" promptText="Take a deep breath..." activeVisual={<img src={sadIcon} style={{ width: '80px' }} />} doneVisual={<img src={dropletIcon} style={{ width: '80px' }} />} audioFile="/src/assets/underwater-white-noise.mp3" />} />
         <Route path="/stressed/meditate" element={<Meditation moodCategory="stressed" promptText="Let it go..." activeVisual={<img src={stressedIcon} style={{ width: '80px' }} />} doneVisual={<img src={dropletIcon} style={{ width: '80px' }} />} audioFile="/src/assets/midnight-rain.mp3" />} />
         <Route path="/angry/meditate" element={<Meditation moodCategory="angry" promptText="Breathe and release..." activeVisual={<img src={angryIcon} style={{ width: '80px' }} />} doneVisual={<img src={dropletIcon} style={{ width: '80px' }} />} audioFile="/src/assets/midnight-rain.mp3" />} />
-        <Route path="/tired/meditate" element={<Meditation moodCategory="tired" promptText="Rest and restore..." activeVisual={<img src={dropletIcon} style={{ width: '80px' }} />} doneVisual={<img src={dropletIcon} style={{ width: '80px' }} />} audioFile="/src/assets/underwater-white-noise.mp3" />} />
+        <Route path="/normal/meditate" element={<Meditation moodCategory="tired" promptText="Rest and restore..." activeVisual={<img src={dropletIcon} style={{ width: '80px' }} />} doneVisual={<img src={dropletIcon} style={{ width: '80px' }} />} audioFile="/src/assets/underwater-white-noise.mp3" />} />
       
 
 
