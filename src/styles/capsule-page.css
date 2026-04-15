@@ -1,0 +1,456 @@
+.mood-capsule-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.mood-capsule-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.08) 12%, transparent 36%),
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.08) 0%, transparent 44%);
+  pointer-events: none;
+}
+
+.mood-capsule-page__icon,
+.mood-capsule-page__content,
+.mood-capsule-page__home,
+.mood-capsule-page__progress {
+  position: relative;
+  z-index: 1;
+}
+
+.mood-capsule-page__effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mood-capsule-page__rain {
+  position: absolute;
+  top: 0;
+  left: -10vw;
+  width: 120vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mood-capsule-page__drop {
+  border: 0.25vmin solid transparent;
+  border-bottom-color: #abc2e9;
+  position: absolute;
+  top: -5vmin;
+  animation: capsuleRainFall linear infinite;
+}
+
+.mood-capsule-page__wave-riser {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(100%);
+  animation: capsuleFillUp 15s ease-in-out forwards;
+}
+
+.mood-capsule-page__wave-svg {
+  position: absolute;
+  top: -59px;
+  left: 0;
+  width: 120%;
+  height: 60px;
+  animation: capsuleSway 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.mood-capsule-page__wave-path {
+  fill: rgba(120, 180, 255, 0.3);
+}
+
+.mood-capsule-page__water-body {
+  position: absolute;
+  inset: 0;
+  background: rgba(120, 180, 255, 0.2);
+}
+
+.mood-capsule-page__snow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.mood-capsule-page__snowflake {
+  position: absolute;
+  top: -5vh;
+  font-size: 50px;
+  color: white;
+  animation: capsuleSnowfall linear infinite;
+}
+
+.mood-capsule-page__icon {
+  position: absolute;
+  top: 1.35rem;
+  left: 1.5rem;
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+
+.mood-capsule-page__content {
+  min-height: 100vh;
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 7.8rem 2rem 10.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-capsule-page__header {
+  text-align: center;
+  margin-bottom: 2.6rem;
+  transition: transform 0.32s ease, opacity 0.32s ease, filter 0.32s ease;
+}
+
+.mood-capsule-page__header h1 {
+  margin: 0;
+  font-size: clamp(2.85rem, 7vw, 4.8rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: #090909;
+}
+
+.mood-capsule-page__header p {
+  margin: 1rem auto 0;
+  max-width: 900px;
+  font-size: clamp(1.15rem, 2vw, 2rem);
+  line-height: 1.4;
+  color: rgba(12, 12, 12, 0.94);
+}
+
+.mood-capsule-page--sad .mood-capsule-page__header h1,
+.mood-capsule-page--sad .mood-capsule-page__header p,
+.mood-capsule-page--angry .mood-capsule-page__header h1,
+.mood-capsule-page--angry .mood-capsule-page__header p,
+.mood-capsule-page--tired .mood-capsule-page__header h1,
+.mood-capsule-page--tired .mood-capsule-page__header p {
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.mood-capsule-page__list {
+  width: min(100%, 730px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.55rem;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.34s ease, filter 0.34s ease;
+}
+
+.mood-capsule-page__card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem 1.2rem 2rem;
+  border-radius: 1.65rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 44px rgba(66, 101, 89, 0.12);
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.34s ease, filter 0.34s ease;
+}
+
+.mood-capsule-page__card-copy {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.7rem;
+  text-align: center;
+  color: #101010;
+}
+
+.mood-capsule-page__card-title {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 400;
+}
+
+.mood-capsule-page__card-separator {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.mood-capsule-page__card-duration {
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.mood-capsule-page__play {
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 2px solid rgba(30, 30, 30, 0.8);
+  background: transparent;
+  color: #1b1b1b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mood-capsule-page__play:hover {
+  transform: translateY(-1px) scale(1.03);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 20px rgba(20, 20, 20, 0.08);
+}
+
+.mood-capsule-page__play-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  transform: translateX(1px);
+}
+
+.mood-capsule-page__status {
+  text-align: center;
+  font-size: 1.05rem;
+  color: rgba(20, 20, 20, 0.82);
+}
+
+.mood-capsule-page__home {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  padding: 0.95rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(30, 30, 30, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.mood-capsule-page__home:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 14px 28px rgba(30, 30, 30, 0.14);
+}
+
+.mood-capsule-page__header--leaving {
+  opacity: 0.4;
+  transform: translateX(-28px);
+  filter: blur(6px);
+}
+
+.mood-capsule-page__header--reenter {
+  animation: capsuleHeaderReenter 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mood-capsule-page__list--leaving {
+  transform: translateX(-110px);
+  opacity: 0.3;
+  filter: blur(8px);
+}
+
+.mood-capsule-page__card--active {
+  transform: translateX(-24px) scale(1.015);
+}
+
+.mood-capsule-page__card--leaving {
+  transform: translateX(-120px);
+  opacity: 0;
+  filter: blur(8px);
+}
+
+.mood-capsule-page__card--reenter {
+  animation: capsuleCardReenter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mood-capsule-page__home--leaving,
+.mood-capsule-page__progressBtn--leaving {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.meditation-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.meditation-panel--enter {
+  animation: meditationPanelEnter 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.meditation-panel--leave {
+  animation: meditationPanelLeave 0.32s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.mood-capsule-page--sad {
+  background: linear-gradient(135deg, #153db5 0%, #5368b4 50%, #0042c5 100%);
+}
+
+.mood-capsule-page--happy {
+  background:
+    radial-gradient(circle at 52% 40%, rgba(255, 232, 90, 0.86) 0%, rgba(255, 232, 90, 0.38) 24%, transparent 48%),
+    linear-gradient(100deg, #f5f25f 0%, #f4c563 34%, #ffd548 66%, #eba6a0 100%);
+}
+
+.mood-capsule-page--stressed {
+  background: linear-gradient(135deg, #309caa 0%, #a5efff 50%, #2e74ae 100%);
+}
+
+.mood-capsule-page--angry {
+  background: linear-gradient(135deg, #35364b 0%, #273465 50%, #5c6c8b 100%);
+}
+
+.mood-capsule-page--tired {
+  background: linear-gradient(135deg, #51bfbb 0%, #5368b4 50%, #fdef9d 100%);
+}
+
+@keyframes capsuleRainFall {
+  from {
+    transform: rotate(91deg) translateX(0);
+  }
+  to {
+    transform: rotate(91deg) translateX(calc(100vh + 5vmin));
+  }
+}
+
+@keyframes capsuleSway {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-30%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes capsuleFillUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(30%); }
+}
+
+@keyframes capsuleSnowfall {
+  0% {
+    transform: translate3d(var(--left-ini), 0, 0);
+  }
+
+  100% {
+    transform: translate3d(var(--left-end), 110vh, 0);
+  }
+}
+
+@keyframes meditationPanelEnter {
+  0% {
+    opacity: 0;
+    transform: translateX(110px);
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes meditationPanelLeave {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(110px);
+    filter: blur(8px);
+  }
+}
+
+@keyframes capsuleHeaderReenter {
+  0% {
+    opacity: 0;
+    transform: translateX(-42px);
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes capsuleCardReenter {
+  0% {
+    opacity: 0;
+    transform: translateX(-120px);
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .mood-capsule-page__content {
+    padding-top: 7rem;
+    padding-bottom: 11.5rem;
+  }
+
+  .mood-capsule-page__card {
+    padding: 1rem 1.1rem 1rem 1.25rem;
+  }
+
+  .mood-capsule-page__card-copy {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .mood-capsule-page__icon {
+    top: 1.35rem;
+    left: 1.5rem;
+    width: 80px;
+  }
+
+  .mood-capsule-page__content {
+    padding: 6.4rem 1.2rem 12rem;
+  }
+
+  .mood-capsule-page__header {
+    margin-bottom: 2rem;
+  }
+
+  .mood-capsule-page__header p {
+    max-width: 28rem;
+  }
+
+  .mood-capsule-page__card {
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .mood-capsule-page__card-copy {
+    gap: 0.35rem;
+  }
+
+  .mood-capsule-page__home {
+    left: 1rem;
+    bottom: 1.15rem;
+  }
+}
