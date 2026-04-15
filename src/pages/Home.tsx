@@ -1,28 +1,31 @@
-import {useNavigate} from 'react-router-dom'
 import '../styles/home.css'
 import flowstateLogo from '../assets/FlowState.svg';
+import { useSlidePageTransition } from '../hooks/useSlidePageTransition';
 
 export default function Home(){
-    const navigate= useNavigate()
+    const { transitionClass, navigateWithTransition } = useSlidePageTransition({
+        'mood-page': 'page-shell--enter-from-left',
+    });
 
-    const handleMoodSelect = (path: string) => {
-        setTimeout(() => {
-            navigate(path);
-        }, 400);
+    const handleMoodSelect = (path: string, feeling?: string) => {
+        if (feeling) {
+            localStorage.setItem('flowstate_last_feeling', feeling);
+
+            const storedCounts = localStorage.getItem('flowstate_mood_counts');
+            const moodCounts = storedCounts ? JSON.parse(storedCounts) as Record<string, number> : {};
+            moodCounts[feeling] = (moodCounts[feeling] ?? 0) + 1;
+            localStorage.setItem('flowstate_mood_counts', JSON.stringify(moodCounts));
+        }
+
+        navigateWithTransition(path, { state: { from: 'home' }, leaveTo: 'left', duration: 360 });
     };
 
 
     return(
-        /* Tired and Happy will lead to Normal meditations at /normal */
+        /* Happy leads to /normal and tired leads to /tired */
         
-        <div className="container">
-            <div className="content" style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                textAlign: 'center',
-                width: '100%'
-            }}>
+        <div className={`container page-shell ${transitionClass}`}>
+            <div className="content">
                 <img 
                     src={flowstateLogo} 
                     alt="flowstate logo" 
@@ -37,35 +40,23 @@ export default function Home(){
                     How are you feeling today?
                 </h1>
 
-                <div className="options">
-
-
-                    <button className="btn" onClick={() => handleMoodSelect('/sad')}> Sad </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/normal')}> Happy </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/stressed')}> Stressed </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/angry')}> Angry </button>
-                    <button className="btn" onClick={() => handleMoodSelect('/normal')}> Tired </button>
-
+                <div className="actionsRow">
+                    <div className="options">
+                        <button className="btn" onClick={() => handleMoodSelect('/sad', 'Sad')}> Sad </button>
+                        <button className="btn" onClick={() => handleMoodSelect('/normal', 'Happy')}> Happy </button>
+                        <button className="btn" onClick={() => handleMoodSelect('/stressed', 'Stressed')}> Stressed </button>
+                        <button className="btn" onClick={() => handleMoodSelect('/angry', 'Angry')}> Angry </button>
+                        <button className="btn" onClick={() => handleMoodSelect('/tired', 'Tired')}> Tired </button>
+                    </div>
                 </div>
-
-            
-
             </div>
 
-            <button 
-                className="progressBtn" 
-                style={{ 
-                    position: 'absolute', 
-                    bottom: '3rem', 
-                    left: '65%', 
-                    transform: 'translateX(-50%)'
-                }} 
+            <button
+                className="progressBtn"
                 onClick={() => handleMoodSelect('/progress')}
             >
                 ♾️View<br/>Progress Tracker
-
             </button>
         </div>
     )
 }
-

@@ -1,8 +1,65 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: initial;
+}
+
+body {
+  background: #0f0f0f;
+}
+
+.page-shell {
+  position: relative;
+  will-change: opacity;
+}
+
+.page-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 999;
+}
+
+.page-shell--enter,
+.page-shell--enter-from-right,
+.page-shell--enter-from-left {
+  opacity: 0.96;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.page-shell--leave-left,
+.page-shell--leave-right {
+  opacity: 1;
+  animation: fadeOut 0.25s ease forwards;
+}
+
+.page-shell--leave-left::before,
+.page-shell--leave-right::before {
+  opacity: 0.08;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.96;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.96;
+  }
 }
 
 .logo {
@@ -11,9 +68,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }

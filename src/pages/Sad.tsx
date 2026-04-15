@@ -3,6 +3,7 @@ import '../styles/sad.css'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import sadImage from '../assets/sad.png'
+import { useSlidePageTransition } from '../hooks/useSlidePageTransition'
 
 
 //animation credits: https://codepen.io/Spate/pen/gOGJMgG
@@ -62,6 +63,9 @@ function Rain() {
 
 export default function Sad(){
     const navigate= useNavigate()
+    const { transitionClass, navigateWithTransition } = useSlidePageTransition({
+      home: 'page-shell--enter-from-right',
+    })
 
     const [capsules, setCapsules] = useState<Capsule[]>([])
   const [loading, setLoading] = useState(true)
@@ -86,7 +90,7 @@ export default function Sad(){
 
 
     return(
-        <div className="sadContainer">
+        <div className={`sadContainer page-shell ${transitionClass}`}>
           <Rain />
           <Wave />
             <div className="sadHeader">
@@ -118,8 +122,11 @@ export default function Sad(){
         ))}
         </div>
 
+        <button className="backHomeBtn" onClick={() => navigateWithTransition('/', { state: { from: 'mood-page' }, leaveTo: 'right' })}>
+          Back to Home
+        </button>
+
     </div>
 
     )
 }
-

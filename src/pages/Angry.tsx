@@ -3,6 +3,7 @@ import '../styles/angry.css'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import angryImage from '../assets/angry.png'
+import { useSlidePageTransition } from '../hooks/useSlidePageTransition'
 
 
 /*capsules from the db format */
@@ -45,6 +46,9 @@ function Rain() {
 
 export default function Angry(){
     const navigate= useNavigate()
+    const { transitionClass, navigateWithTransition } = useSlidePageTransition({
+      home: 'page-shell--enter-from-right',
+    })
 
     const [capsules, setCapsules] = useState<Capsule[]>([])
   const [loading, setLoading] = useState(true)
@@ -69,7 +73,7 @@ export default function Angry(){
 
 
     return(
-        <div className="angryContainer">
+        <div className={`angryContainer page-shell ${transitionClass}`}>
             <Rain /> {/**adding thunder storm rain effects --> credit CodePen open source css effects */}
             <div className="angryHeader">
                 <img src={angryImage} alt="angry" className="angryImage" />
@@ -100,8 +104,11 @@ export default function Angry(){
         ))}
         </div>
 
+        <button className="backHomeBtn" onClick={() => navigateWithTransition('/', { state: { from: 'mood-page' }, leaveTo: 'right' })}>
+          Back to Home
+        </button>
+
     </div>
 
     )
 }
-

@@ -3,6 +3,7 @@ import '../styles/stressed.css'
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import stressedImage from '../assets/stressed.png'
+import { useSlidePageTransition } from '../hooks/useSlidePageTransition'
 
 /*capsules from the db format */
 type Capsule = {
@@ -26,6 +27,9 @@ function Snow() {
 
 export default function Stressed(){
     const navigate= useNavigate()
+    const { transitionClass, navigateWithTransition } = useSlidePageTransition({
+      home: 'page-shell--enter-from-right',
+    })
 
     const [capsules, setCapsules] = useState<Capsule[]>([])
   const [loading, setLoading] = useState(true)
@@ -50,7 +54,7 @@ export default function Stressed(){
 
 
     return(
-        <div className="stressedContainer">
+        <div className={`stressedContainer page-shell ${transitionClass}`}>
             <Snow /> {/*falling snow */}
             <div className="stressedHeader">
                 <img src={stressedImage} alt="stressed" className="stressedImage" />
@@ -81,8 +85,11 @@ export default function Stressed(){
         ))}
         </div>
 
+        <button className="backHomeBtn" onClick={() => navigateWithTransition('/', { state: { from: 'mood-page' }, leaveTo: 'right' })}>
+          Back to Home
+        </button>
+
     </div>
 
     )
 }
-
