@@ -12,53 +12,102 @@ body {
 
 .page-shell {
   position: relative;
-  will-change: opacity;
+  will-change: transform, opacity, filter;
 }
 
-.page-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 999;
+.page-shell--enter {
+  opacity: 0.96;
+  animation: pageShellEnter 0.28s ease-out forwards;
 }
 
-.page-shell--enter,
-.page-shell--enter-from-right,
+.page-shell--enter-from-right {
+  opacity: 0.96;
+  animation: pageShellEnterFromRight 0.34s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 .page-shell--enter-from-left {
   opacity: 0.96;
-  animation: fadeIn 0.25s ease forwards;
+  animation: pageShellEnterFromLeft 0.34s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .page-shell--leave-left,
 .page-shell--leave-right {
   opacity: 1;
-  animation: fadeOut 0.25s ease forwards;
+  animation-duration: 0.32s;
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  animation-fill-mode: forwards;
 }
 
-.page-shell--leave-left::before,
-.page-shell--leave-right::before {
-  opacity: 0.08;
+.page-shell--leave-left {
+  animation-name: pageShellLeaveLeft;
 }
 
-@keyframes fadeIn {
+.page-shell--leave-right {
+  animation-name: pageShellLeaveRight;
+}
+
+@keyframes pageShellEnter {
   from {
     opacity: 0.96;
+    transform: translateY(10px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-@keyframes fadeOut {
+@keyframes pageShellEnterFromRight {
   from {
-    opacity: 1;
+    opacity: 0.92;
+    transform: translateX(64px);
+    filter: blur(6px);
   }
   to {
-    opacity: 0.96;
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pageShellEnterFromLeft {
+  from {
+    opacity: 0.92;
+    transform: translateX(-64px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pageShellLeaveLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateX(-72px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes pageShellLeaveRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateX(72px);
+    filter: blur(6px);
   }
 }
 

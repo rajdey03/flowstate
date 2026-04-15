@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../styles/home.css';
+import '../styles/capsule-page.css';
 
 /*
 REMOVE THIS-- capsule views already integrated
@@ -14,6 +15,7 @@ interface Capsule {
 
 interface FlowProps {
     moodCategory: 'sad' | 'stressed' | 'angry' | 'tired';
+    visualTheme: 'sad' | 'stressed' | 'angry' | 'tired' | 'happy';
     promptText: string;
     activeVisual: React.ReactNode; 
     doneVisual: React.ReactNode;
@@ -21,9 +23,89 @@ interface FlowProps {
     returnPath: string; //bc tired is /normal
 }
 
-export default function MeditationScreen({ moodCategory, promptText, activeVisual, doneVisual, audioFile, returnPath }: FlowProps) {
+function RainEffect({ intense = false }: { intense?: boolean }) {
+    const drops = Array.from({ length: intense ? 500 : 200 }, (_, i) => ({
+        id: i,
+        opacity: Math.random() * (intense ? 0.9 : 0.6),
+        left: `${Math.random() * 120 - 10}vw`,
+        borderLeftWidth: `${Math.random() * 8}vmin`,
+        animationDuration: `${Math.random() * (intense ? 2 : 3) + (intense ? 0.5 : 2)}s`,
+        animationDelay: `${Math.random() * -12}s`,
+    }));
+
+    return (
+        <div className="mood-capsule-page__effect mood-capsule-page__rain">
+            {drops.map((drop) => (
+                <div
+                    key={drop.id}
+                    className="mood-capsule-page__drop"
+                    style={{
+                        opacity: drop.opacity,
+                        left: drop.left,
+                        borderLeftWidth: drop.borderLeftWidth,
+                        animationDuration: drop.animationDuration,
+                        animationDelay: drop.animationDelay,
+                    }}
+                />
+            ))}
+        </div>
+    );
+}
+
+function WaveEffect() {
+    return (
+        <div className="mood-capsule-page__effect">
+            <div className="mood-capsule-page__wave-riser">
+                <svg className="mood-capsule-page__wave-svg" viewBox="0 0 1440 60" preserveAspectRatio="none">
+                    <path className="mood-capsule-page__wave-path" d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" />
+                </svg>
+                <div className="mood-capsule-page__water-body" />
+            </div>
+        </div>
+    );
+}
+
+function SnowEffect() {
+    const flakes = Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        left: `${Math.random() * 100}vw`,
+        duration: `${Math.random() * 8 + 7}s`,
+        delay: `${Math.random() * -10}s`,
+        size: `${Math.random() * 22 + 24}px`,
+        leftIni: `${Math.random() * 14 - 7}vw`,
+        leftEnd: `${Math.random() * 18 - 9}vw`,
+        blur: i % 10 === 0 ? 'blur(5px)' : i % 6 === 0 ? 'blur(2px)' : i % 2 === 0 ? 'blur(1px)' : 'none',
+    }));
+
+    return (
+        <div className="mood-capsule-page__effect mood-capsule-page__snow">
+            {flakes.map((flake) => (
+                <div
+                    key={flake.id}
+                    className="mood-capsule-page__snowflake"
+                    style={{
+                        left: flake.left,
+                        animationDuration: flake.duration,
+                        animationDelay: flake.delay,
+                        fontSize: flake.size,
+                        filter: flake.blur,
+                        ['--left-ini' as string]: flake.leftIni,
+                        ['--left-end' as string]: flake.leftEnd,
+                    }}
+                >
+                    ❄
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default function MeditationScreen({ moodCategory, visualTheme, promptText, activeVisual, doneVisual, audioFile, returnPath }: FlowProps) {
     const location = useLocation();
     const navigate = useNavigate();
+    const timerSize = 'min(58vw, 46vh, 390px)';
+    const enteredFromCapsulePage = location.state?.from === 'capsule-page';
+    const [isLeavingToCapsules, setIsLeavingToCapsules] = useState(false);
     
     //REMOVE const [capsules, setCapsules] = useState<Capsule[]>([]);
     const [selectedCapsule, setSelectedCapsule] = useState<{ id: string; name: string; duration_minutes: number } | null>(null);
@@ -47,6 +129,16 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         setTimeout(() => {
             navigate(path);
         }, 400);
+    };
+
+    const handleCancel = () => {
+        setIsActive(false);
+        setIsLeavingToCapsules(true);
+
+        window.setTimeout(() => {
+            setSelectedCapsule(null);
+            navigate(returnPath, { state: { from: 'meditation-screen' } });
+        }, 320);
     };
     /* REMOVE THIS, capsules present in previous view
     useEffect(() => {
@@ -162,30 +254,107 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
         }
     };
 
+    const breathingText = getBreathingText();
+    const meditationThemeClass = `mood-capsule-page--${visualTheme ?? moodCategory}`;
+    const useLightText = visualTheme === 'sad' || visualTheme === 'angry' || visualTheme === 'tired';
+    const meditationTextColor = useLightText ? 'rgba(255, 255, 255, 0.96)' : '#1a1a1a';
+    const meditationTimerColor = useLightText ? 'rgba(255, 255, 255, 0.82)' : '#1a1a1a';
+    const renderBackgroundEffects = () => {
+        if (visualTheme === 'sad') {
+            return (
+                <>
+                    <RainEffect />
+                    <WaveEffect />
+                </>
+            );
+        }
+
+        if (visualTheme === 'stressed') {
+            return <SnowEffect />;
+        }
+
+        if (visualTheme === 'angry') {
+            return <RainEffect intense />;
+        }
+
+        return null;
+    };
+
     return (
-        <div className="container">
+        <div
+            className={`container mood-capsule-page ${meditationThemeClass}`}
+            style={{
+                minHeight: '100dvh',
+                height: '100dvh',
+                padding: '1rem',
+                overflow: 'hidden',
+            }}
+        >
+            {renderBackgroundEffects()}
             <audio ref={audioRef} src={audioFile} />
 
-            <div className="content" style={{ alignItems: 'center', textAlign: 'center' }}>
-                
+            {!isDone && selectedCapsule ? (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '1.35rem',
+                        left: '1.5rem',
+                        zIndex: 1,
+                        fontSize: 'clamp(2.6rem, 5vw, 4.25rem)',
+                        lineHeight: 1,
+                        filter: isActive ? 'drop-shadow(0 0 1em rgba(255,255,255,0.8))' : 'none',
+                        transition: 'filter 0.5s ease',
+                    }}
+                >
+                    {activeVisual}
+                </div>
+            ) : null}
+
+            <div
+                className="content"
+                style={{
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    minHeight: '100%',
+                    height: '100%',
+                    gap: '1rem',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    zIndex: 1,
+                }}
+            >
+                <div
+                    className={`meditation-panel ${
+                        isLeavingToCapsules
+                            ? 'meditation-panel--leave'
+                            : enteredFromCapsulePage
+                                ? 'meditation-panel--enter'
+                                : ''
+                    }`}
+                    style={{
+                        justifyContent: 'center',
+                        minHeight: '100%',
+                    }}
+                >
                 {isDone ? (
                     <>
-                        <h1 className="welcome" style={{ marginBottom: '1rem' }}>
+                        <h1 className="welcome" style={{ marginBottom: '0.35rem', fontSize: 'clamp(2rem, 4.2vw, 3.6rem)', color: meditationTextColor }}>
                             Session Complete
                         </h1>
-                        <p style={{ color: '#1a1a1a', fontSize: '1.5rem', fontWeight: 500 }}>
+                        <p style={{ color: meditationTextColor, fontSize: 'clamp(1rem, 1.8vw, 1.35rem)', fontWeight: 500, margin: 0 }}>
                             Great job taking time for yourself.
                         </p>
                         
-                        <div style={{ fontSize: '8rem', margin: '2rem 0', animation: 'logo-spin 4s ease-in-out' }}>
+                        <div style={{ fontSize: 'clamp(3.5rem, 8vw, 6rem)', margin: '0.75rem 0', animation: 'logo-spin 4s ease-in-out' }}>
                             {doneVisual}
                         </div>
                         
-                        <div className="options" style={{ justifyContent: 'center', marginTop: '2rem' }}>
-                            <button className="btn" onClick={() => handleNavigate('/')}>
+                        <div className="options" style={{ justifyContent: 'center', marginTop: '0.25rem', gap: '0.85rem', flexWrap: 'nowrap', flex: '0 0 auto', alignItems: 'center' }}>
+                            <button className="btn" style={{ justifyContent: 'center' }} onClick={() => handleNavigate('/')}>
                                 Back to Home
                             </button>
-                            <button className="btn" onClick={() => handleNavigate('/progress')}>
+                            <button className="btn" style={{ justifyContent: 'center' }} onClick={() => handleNavigate('/progress')}>
                                 Check Progress
                             </button>
                         </div>
@@ -194,11 +363,28 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                 
                 : selectedCapsule ? (
                     <>
-                        <h1 className="welcome" style={{ marginBottom: '2rem' }}>{selectedCapsule.name}</h1>
+                        <h1 className="welcome" style={{ marginBottom: '0.25rem', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1.1, color: meditationTextColor }}>
+                            {selectedCapsule.name}
+                        </h1>
                         
-                        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '4rem 0' }}>
+                        <div
+                            style={{
+                                position: 'relative',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                margin: '0.25rem auto 0',
+                                width: timerSize,
+                                height: timerSize,
+                            }}
+                        >
                             
-                            <svg height="650" width="650" style={{ transform: 'rotate(-90deg)' }}>
+                            <svg
+                                viewBox="0 0 650 650"
+                                width={timerSize}
+                                height={timerSize}
+                                style={{ transform: 'rotate(-90deg)' }}
+                            >
                                 <circle
                                     stroke="rgba(0, 0, 0, 0.1)"
                                     fill="transparent"
@@ -224,49 +410,68 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                                 />
                             </svg>
                             
-                            <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '450px' }}>
-                                
-                                <div style={{ 
-                                    fontSize: '5rem', 
-                                    marginBottom: '15px', 
-                                    filter: isActive ? 'drop-shadow(0 0 1em rgba(255,255,255,0.8))' : 'none', 
-                                    transition: 'filter 0.5s ease' 
-                                }}>
-                                    {activeVisual}
-                                </div>
-                                
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '68%',
+                                    maxWidth: '68%',
+                                    inset: '16% 16% 16% 16%',
+                                }}
+                            >
                                 <h2 style={{ 
-                                    fontSize: '3.5rem', 
-                                    color: '#1a1a1a', 
+                                    fontSize: breathingText.length > 24
+                                        ? 'clamp(1.12rem, 2.2vw, 1.78rem)'
+                                        : 'clamp(1.24rem, 2.6vw, 2.05rem)',
+                                    color: meditationTextColor, 
                                     margin: '0', 
                                     fontWeight: 500, 
                                     transition: 'opacity 0.5s ease',
-                                    textAlign: 'center'
+                                    textAlign: 'center',
+                                    lineHeight: 1.05,
+                                    maxWidth: '100%',
+                                    overflowWrap: 'anywhere',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
                                 }}>
-                                    {getBreathingText()}
+                                    {breathingText}
                                 </h2>
                                 
                                 <h3 style={{ 
-                                    fontSize: '3rem', 
-                                    color: '#1a1a1a', 
-                                    margin: '15px 0 0 0', 
+                                    fontSize: 'clamp(1rem, 1.9vw, 1.55rem)', 
+                                    color: meditationTimerColor, 
+                                    margin: '0.55rem 0 0 0', 
                                     fontFamily: 'monospace', 
-                                    opacity: 0.7 
+                                    opacity: 0.7,
+                                    lineHeight: 1,
+                                    textAlign: 'center',
                                 }}>
                                     {formatTime(timeLeft)}
                                 </h3>
                             </div>
                         </div>
 
-                        <div className="options" style={{ justifyContent: 'center', marginTop: '3rem' }}>
-                            <button className="btn" onClick={() => setIsActive(!isActive)}>
+                        <div className="options" style={{ justifyContent: 'center', marginTop: '0.35rem', gap: '0.85rem', flexWrap: 'nowrap', flex: '0 0 auto', alignItems: 'center' }}>
+                            <button
+                                className="btn"
+                                style={{
+                                    justifyContent: 'center',
+                                }}
+                                onClick={() => setIsActive(!isActive)}
+                            >
                                 {isActive ? '⏸ Pause' : 'Start'}
                             </button>
-                            <button className="btn" onClick={() => {
-                                setSelectedCapsule(null);
-                                setIsActive(false);
-                                handleNavigate(returnPath); 
-                            }}>
+                            <button
+                                className="btn"
+                                style={{
+                                    justifyContent: 'center',
+                                }}
+                                onClick={handleCancel}
+                            >
                                 Cancel
                             </button>
                         </div>
@@ -277,6 +482,7 @@ export default function MeditationScreen({ moodCategory, promptText, activeVisua
                 : null //removed the part with capsule display- no need for duplicates
                
             }
+                </div>
             </div>
         </div>
     );
