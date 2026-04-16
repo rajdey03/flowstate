@@ -1,56 +1,17 @@
-# React + TypeScript + Vite
+# FlowState
+FlowState is a web-based meditation and mindfullness tool designed to help students manage stress and replace unproductive habits like doomscrolling with restorative flow states.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built by Team **Ctrl + UX** for SOEN 357 Final Project
 
-Currently, two official plugins are available:
+## Steps for Setup and Running the Project
+1. Place the project in your desired file path location and run 'cd path/to/flowstate' in the terminal.
+     
+2. Run 'npm install' in the terminal.
+   
+3. Create a new file named exactly .env in the root folder of the project, specifically the same level as the package.json file.
+   
+4. Open the .env file and paste the two keys, which are found in the Appendix section of our final report.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+5. Run 'npm run dev' in the terminal.
 
-## Important Steps
-
-npm install @supabase/supabase-js
-
-To run: npm run dev
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+6. The terminal will provide a local host link. Simply open that link to interact with the app.
