@@ -1,18 +1,22 @@
-import { type CSSProperties } from 'react'
+import { type CSSProperties, useMemo } from 'react'
 import stressedImage from '../assets/stressed.png'
 import MoodCapsulePage from '../components/MoodCapsulePage'
 
 function Snow() {
-  const flakes = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}vw`,
-    duration: `${Math.random() * 8 + 7}s`,
-    delay: `${Math.random() * -10}s`,
-    size: `${Math.random() * 22 + 24}px`,
-    leftIni: `${Math.random() * 14 - 7}vw`,
-    leftEnd: `${Math.random() * 18 - 9}vw`,
-    blur: i % 10 === 0 ? 'blur(5px)' : i % 6 === 0 ? 'blur(2px)' : i % 2 === 0 ? 'blur(1px)' : 'none',
-  }))
+  const flakes = useMemo(
+    () =>
+      Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        left: `${Math.random() * 100}vw`,
+        duration: `${Math.random() * 8 + 7}s`,
+        delay: `${Math.random() * -10}s`,
+        size: `${Math.random() * 22 + 24}px`,
+        leftIni: `${Math.random() * 14 - 7}vw`,
+        leftEnd: `${Math.random() * 18 - 9}vw`,
+        blur: i % 10 === 0 ? 'blur(5px)' : i % 6 === 0 ? 'blur(2px)' : i % 2 === 0 ? 'blur(1px)' : 'none',
+      })),
+    [],
+  )
 
   const getFlakeStyle = (flake: (typeof flakes)[number]) => ({
     left: flake.left,
